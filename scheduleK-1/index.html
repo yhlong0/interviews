@@ -8,19 +8,23 @@
     
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://unpkg.com/@material-ui/core@3.0.3/umd/material-ui.development.js"></script>
+
     
-    <!-- Load React component. -->
-    <script src="like_button.js"></script>
+    <!-- Load our React component. -->
+    <script src="App.js"></script>
+
   </head>
   <body>
     <div id="root"></div>
     <script type="text/babel">
 
+
       ReactDOM.render(
-        <h1>test</h1>,
+        <App />,
         document.getElementById('root')
       );
 
