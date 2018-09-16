@@ -19,22 +19,20 @@ const {
   colors,
   createMuiTheme,
   CssBaseline,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Icon,
+  Stepper,
+  Step,
+  StepLabel,
   MuiThemeProvider,
   Typography,
+  Fragment,
   withStyles,
 } = window['material-ui'];
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: colors.purple[300],
-      main: colors.purple[500],
-      dark: colors.purple[700],
+      light: colors.cyan[300],
+      main: colors.cyan[500],
+      dark: colors.cyan[700],
     },
     secondary: {
       light: colors.green[300],
@@ -48,52 +46,78 @@ const styles = theme => ({
     textAlign: 'center',
     paddingTop: theme.spacing.unit * 20,
   },
-  icon: {
-    marginRight: theme.spacing.unit,
-  },
 });
+
+function getSteps() {
+  return ['Part I', 'Part II', 'Part III'];
+}
+
 class Index extends React.Component {
   state = {
-    open: false,
+    activeStep: 0,
   };
-  handleClose = () => {
+
+  handleNext = () => {
+    const { activeStep } = this.state;
     this.setState({
-      open: false,
+      activeStep: activeStep + 1,
     });
   };
-  handleClick = () => {
+
+  handleBack = () => {
+    const { activeStep } = this.state;
     this.setState({
-      open: true,
+      activeStep: activeStep - 1,
     });
   };
+
+  handleReset = () => {
+    this.setState({
+      activeStep: 0,
+    });
+  };
+
+
   render() {
     const { classes } = this.props;
-    const { open } = this.state;
+    const steps = getSteps();
+    const { activeStep } = this.state;
+
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
-          <CssBaseline />
-          <Dialog open={open} onClose={this.handleClose}>
-            <DialogTitle>Super Secret Password</DialogTitle>
-            <DialogContent>
-              <DialogContentText>1-2-3-4-5</DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button color="primary" onClick={this.handleClose}>
-                OK
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map(label => {
+              return (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              );
+            })}
+          </Stepper>
+          {this.state.activeStep === steps.length ? (
+              <div>
+                <Button onClick={this.handleReset}>Reset</Button>
+              </div>
+            ) : (
+              <div>
+              <Button
+                disabled={activeStep === 0}
+                onClick={this.handleBack}
+                className={classes.backButton}
+              >
+                Back
               </Button>
-            </DialogActions>
-          </Dialog>
-          <Typography variant="display1" gutterBottom>
-            Material-UI
-          </Typography>
-          <Typography variant="subheading" gutterBottom>
-            example project
-          </Typography>
-          <Button variant="raised" color="secondary" onClick={this.handleClick}>
-            <Icon className={classes.icon}>fingerprint</Icon>
-            Super Secret Password
-          </Button>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={this.handleNext}
+              >
+                {activeStep === steps.length - 1 ? 'Submit' : 'Continue'}
+              </Button>
+              </div>
+            )}
+
         </div>
       </MuiThemeProvider>
     );
