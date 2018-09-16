@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
+import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -11,8 +11,14 @@ const styles = theme => ({
   root: {
     width: '90%',
   },
+  button: {
+    marginRight: theme.spacing.unit,
+  },
   backButton: {
     marginRight: theme.spacing.unit,
+  },
+  completed: {
+    display: 'inline-block',
   },
   instructions: {
     marginTop: theme.spacing.unit,
@@ -21,46 +27,132 @@ const styles = theme => ({
 });
 
 function getSteps() {
-  return ['Select master blaster campaign settings', 'Create an ad group', 'Create an ad'];
+  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
 }
 
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
+function getStepContent(step) {
+  switch (step) {
     case 0:
-      return 'Select campaign settings...';
+      return 'Step 1: Select campaign settings...';
     case 1:
-      return 'What is an ad group anyways?';
+      return 'Step 2: What is an ad group anyways?';
     case 2:
-      return 'This is the bit I really care about!';
+      return 'Step 3: This is the bit I really care about!';
     default:
-      return 'Uknown stepIndex';
+      return 'Unknown step';
   }
 }
 
-class HorizontalLabelPositionBelowStepper extends React.Component {
+class HorizontalNonLinearAlternativeLabelStepper extends React.Component {
   state = {
     activeStep: 0,
+    completed: new Set(),
+    skipped: new Set(),
+  };
+
+  totalSteps = () => {
+    return getSteps().length;
+  };
+
+  isStepOptional = step => {
+    return step === 1;
+  };
+
+  handleSkip = () => {
+    const { activeStep } = this.state;
+    if (!this.isStepOptional(activeStep)) {
+      // You probably want to guard against something like this
+      // it should never occur unless someone's actively trying to break something.
+      throw new Error("You can't skip a step that isn't optional.");
+    }
+
+    this.setState(state => {
+      const skipped = new Set(state.skipped.values());
+      skipped.add(activeStep);
+      return {
+        activeStep: state.activeStep + 1,
+        skipped,
+      };
+    });
   };
 
   handleNext = () => {
-    const { activeStep } = this.state;
+    let activeStep;
+
+    if (this.isLastStep() && !this.allStepsCompleted()) {
+      // It's the last step, but not all steps have been completed
+      // find the first step that has been completed
+      const steps = getSteps();
+      activeStep = steps.findIndex((step, i) => !this.state.completed.has(i));
+    } else {
+      activeStep = this.state.activeStep + 1;
+    }
     this.setState({
-      activeStep: activeStep + 1,
+      activeStep,
     });
   };
 
   handleBack = () => {
-    const { activeStep } = this.state;
+    this.setState(state => ({
+      activeStep: state.activeStep - 1,
+    }));
+  };
+
+  handleStep = step => () => {
     this.setState({
-      activeStep: activeStep - 1,
+      activeStep: step,
     });
+  };
+
+  handleComplete = () => {
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    const completed = new Set(this.state.completed);
+    completed.add(this.state.activeStep);
+    this.setState({
+      completed,
+    });
+
+    /**
+     * Sigh... it would be much nicer to replace the following if conditional with
+     * `if (!this.allStepsComplete())` however state is not set when we do this,
+     * thus we have to resort to not being very DRY.
+     */
+    if (completed.size !== this.totalSteps() - this.skippedSteps()) {
+      this.handleNext();
+    }
   };
 
   handleReset = () => {
     this.setState({
       activeStep: 0,
+      completed: new Set(),
+      skipped: new Set(),
     });
   };
+
+  skippedSteps() {
+    return this.state.skipped.size;
+  }
+
+  isStepSkipped(step) {
+    return this.state.skipped.has(step);
+  }
+
+  isStepComplete(step) {
+    return this.state.completed.has(step);
+  }
+
+  completedSteps() {
+    return this.state.completed.size;
+  }
+
+  allStepsCompleted() {
+    return this.completedSteps() === this.totalSteps() - this.skippedSteps();
+  }
+
+  isLastStep() {
+    return this.state.activeStep === this.totalSteps() - 1;
+  }
 
   render() {
     const { classes } = this.props;
@@ -69,19 +161,35 @@ class HorizontalLabelPositionBelowStepper extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map(label => {
+        <Stepper alternativeLabel nonLinear activeStep={activeStep}>
+          {steps.map((label, index) => {
+            const props = {};
+            const buttonProps = {};
+            if (this.isStepOptional(index)) {
+              buttonProps.optional = <Typography variant="caption">Optional</Typography>;
+            }
+            if (this.isStepSkipped(index)) {
+              props.completed = false;
+            }
             return (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+              <Step key={label} {...props}>
+                <StepButton
+                  onClick={this.handleStep(index)}
+                  completed={this.isStepComplete(index)}
+                  {...buttonProps}
+                >
+                  {label}
+                </StepButton>
               </Step>
             );
           })}
         </Stepper>
         <div>
-          {this.state.activeStep === steps.length ? (
+          {this.allStepsCompleted() ? (
             <div>
-              <Typography className={classes.instructions}>All steps completed</Typography>
+              <Typography className={classes.instructions}>
+                All steps completed - you&quot;re finished
+              </Typography>
               <Button onClick={this.handleReset}>Reset</Button>
             </div>
           ) : (
@@ -91,13 +199,39 @@ class HorizontalLabelPositionBelowStepper extends React.Component {
                 <Button
                   disabled={activeStep === 0}
                   onClick={this.handleBack}
-                  className={classes.backButton}
+                  className={classes.button}
                 >
                   Back
                 </Button>
-                <Button variant="contained" color="primary" onClick={this.handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleNext}
+                  className={classes.button}
+                >
+                  Next
                 </Button>
+                {this.isStepOptional(activeStep) &&
+                  !this.state.completed.has(this.state.activeStep) && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleSkip}
+                      className={classes.button}
+                    >
+                      Skip
+                    </Button>
+                  )}
+                {activeStep !== steps.length &&
+                  (this.state.completed.has(this.state.activeStep) ? (
+                    <Typography variant="caption" className={classes.completed}>
+                      Step {activeStep + 1} already completed
+                    </Typography>
+                  ) : (
+                    <Button variant="contained" color="primary" onClick={this.handleComplete}>
+                      {this.completedSteps() === this.totalSteps() - 1 ? 'Finish' : 'Complete Step'}
+                    </Button>
+                  ))}
               </div>
             </div>
           )}
@@ -107,8 +241,8 @@ class HorizontalLabelPositionBelowStepper extends React.Component {
   }
 }
 
-HorizontalLabelPositionBelowStepper.propTypes = {
+HorizontalNonLinearAlternativeLabelStepper.propTypes = {
   classes: PropTypes.object,
 };
 
-export default withStyles(styles)(HorizontalLabelPositionBelowStepper);
+export default withStyles(styles)(HorizontalNonLinearAlternativeLabelStepper);
