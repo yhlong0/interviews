@@ -24,6 +24,8 @@ const {
   StepLabel,
   MuiThemeProvider,
   Typography,
+  Grid,
+  Paper,
   Card,
   CardActions,
   CardContent,
@@ -59,12 +61,18 @@ const styles = theme => ({
     float: 'left',
   },
   content: {
-    width: '1900px',
+    clear: 'both',
     textAlign: 'center',
-    paddingTop: '50px',
+    paddingTop: '5px',
+    flexGrow: 1,
   },
-  divider: {
-
+  paper: {
+    padding: theme.spacing.unit * 2,
+    height: '60px',
+  },
+  paper1: {
+    paddingTop: '32px',
+    height: '60px',
   }
 });
 
@@ -143,53 +151,60 @@ class Index extends React.Component {
             )}
             </div>
             <div className={classes.content}>
-                
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography variant="headline" component="h2">
-                    Schedule K-1
-                  </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                    (Form 1065)
-                  </Typography>
-                </CardContent>
-              </Card>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography variant="headline" component="h2">
-                    Partner's Share of Income, Deductions, Credits, etc.
-                  </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                    Part II: Information About the Partner
-                  </Typography>
-                </CardContent>
-              </Card>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography variant="headline" component="h2">
-                    2017
-                  </Typography>
-                </CardContent>
-              </Card>
+              <Grid container spacing={0} alignItems="stretch" >
+                <Grid item xs={3}>
+                  <Paper className={classes.paper}>
+                    <Typography variant="headline" component="h2">
+                      Schedule K-1
+                    </Typography>
+                    <Typography color="textSecondary">
+                      (Form 1065)
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item xs={7}>
+                  <Paper className={classes.paper}>
+                    <Typography variant="headline" component="h2">
+                      Partner's Share of Income, Deductions, Credits, etc.
+                    </Typography>
+                    <Typography color="textSecondary">
+                      Part II: Information About the Partner
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item xs={2}>
+                  <Paper className={classes.paper1}>
+                    <Typography variant="headline" component="h2">
+                      2017
+                    </Typography>
+                  </Paper>
+                </Grid>
+              </Grid>
+
               {this.state.activeStep === 0 &&
                 <div className={classes.content}>
-                Step1
                 <Divider />
+                <Typography variant="headline" component="h1">
+                      Step I 
+                </Typography>
                 </div>
               }
 
               {this.state.activeStep === 1 &&
                 <div className={classes.content}>
-                Step2
                 <Divider />
+                <Typography variant="headline" component="h1">
+                      Step II 
+                </Typography>
                 </div>
               }
 
               {this.state.activeStep === 2 &&
                 <div className={classes.content}>
-                Step3
                 <Divider />
+                <Typography variant="headline" component="h1">
+                      Step III 
+                </Typography>
                 </div>
               }
             </div>
