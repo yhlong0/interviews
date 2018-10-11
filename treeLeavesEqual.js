@@ -8,3 +8,16 @@ sampleTree = {
 }
 
 //true
+
+
+function LeavesAreEqual(tree) {
+  //get a value from the node
+  
+  //Stop condition for recursive
+  
+  
+  
+  //Traverse the tree
+  LeavesAreEqual(subtree)
+
+}
