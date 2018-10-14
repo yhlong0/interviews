@@ -9,3 +9,9 @@ Runtime environment
 Event-driven, non-blocking I/O, single-threaded, async
 
 
+## How Event Loop Work
+
+![alt EventLoop1](https://github.com/yhlong0/interviews/blob/master/eventloop01.PNG)
+![alt EventLoop2](https://github.com/yhlong0/interviews/blob/master/eventloop02.PNG)
+
+
