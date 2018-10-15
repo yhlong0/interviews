@@ -4,7 +4,7 @@
 */
 
 
-```
+
 function UniqueString(str) {
   if(str.length > 128) {
     return false;
@@ -22,4 +22,4 @@ function UniqueString(str) {
   return true;
 }
 
-```
+
