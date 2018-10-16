@@ -1,7 +1,7 @@
 ## Mounting ---------------  Updating ------------------------ UnMounting
-constructor
-render    -----  render ------ render
-componentDidMount        ComponentDidUpdate                 ComponentWillUnmount
+- constructor
+- render    -----  render ------ render
+- componentDidMount        ComponentDidUpdate                 ComponentWillUnmount
 
 
 # componentWillMount
