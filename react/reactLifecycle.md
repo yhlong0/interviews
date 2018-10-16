@@ -1,3 +1,9 @@
+## Mounting ---------------  Updating ------------------------ UnMounting
+constructor
+render    -----  render ------ render
+componentDidMount        ComponentDidUpdate                 ComponentWillUnmount
+
+
 # componentWillMount
 
 Your component is going to appear on the screen shortly, render function is about to be called. What do you want to do?
