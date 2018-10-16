@@ -1,7 +1,8 @@
-## Mounting ---------------  Updating ------------------------ UnMounting
-- constructor
-- render    -----  render ------ render
-- componentDidMount        ComponentDidUpdate                 ComponentWillUnmount
+| Mounting |  Updating | UnMounting |
+|----------|-----------|----------|
+| constructor|     |        |
+| render |  render | |
+| componentDidMount   |     ComponentDidUpdate   |    ComponentWillUnmount |
 
 
 # componentWillMount
