@@ -1,0 +1,42 @@
+<!-- 
+1. create html with a button
+2. onclick alert number of times button been clicked.
+   set text "btn has clicked x times" when button clicked. 
+3. Two buttons, have same function.
+4. Button one after click can generate second button with counter function.
+5. When browser close, the counter should still remember.
+-->
+
+
+<html>
+  <script>
+    var counterArray = [];
+    
+    function counter(id) {
+      if(id === 'undefined') {
+        counter = 0;
+      }
+      counter = counterArray[id];
+      counterArray[id] = counter++;
+      
+      document.getElementById(id).value = "btn has clicked " + counter + " times".
+      
+      createBtn(id);
+    }
+    
+    function createBtn(id) {
+      var newId = id + Math.random()
+      var btn = document.createElement("BUTTON")
+                        .attr("id", newId)
+                        .attr("onclick", "counter(this.id)");
+                        
+      document.body.appendChild(btn);
+    }
+    
+  </script>
+  <body>
+    <button id="btn1" onclick="counter(this.id)">Click Me</button>
+  </body>
+
+
+</html>
