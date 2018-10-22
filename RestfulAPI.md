@@ -10,7 +10,22 @@ Pagination: GET /companies?page=23
 
 ```
 
-# Http Status Code
+# Rules
+
+- Avoid using verbs in URIs
+- Don't return plain text, using Content-Type: application/json
+- Use plural resource nouns(articles, users and etc..)
+- Return error details in the response body
+```
+{
+  "error": "Invalid payload.",
+  "detail": {
+    "lastname": "This field is required."
+  }
+}
+```
+- Using Http Status code
+
 
 | Status Code  | Content |
 | ------------- | ------------- |
@@ -22,4 +37,18 @@ Pagination: GET /companies?page=23
 | 403 | Forbidden |
 | 500 | server error |
 | 503 | service unavailable |
+
+Client Side checking http status code
+
+```
+axios.get('/foo')
+  .catch(function (error) {
+    if (error.response) {
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    }
+  });
+```
+
 
