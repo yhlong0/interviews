@@ -66,5 +66,21 @@ Good example:
 ```
 GET: /articles/?author_id=12
 ```
+How to write route in NodeJS Express
+```
+// GET /search?q=tobi+ferret
+req.query.q
+// => "tobi ferret"
 
+// GET /shoes?order=desc&shoe[color]=blue&shoe[type]=converse
+req.query.order
+// => "desc"
+
+req.query.shoe.color
+// => "blue"
+
+req.query.shoe.type
+// => "converse"
+
+```
 
