@@ -38,6 +38,14 @@ Pagination: GET /companies?page=23
 | 500 | server error |
 | 503 | service unavailable |
 
+- Dont nest resources
+
+Bad example:
+
+```
+GET: /authors/12/articles/
+```
+
 Client Side checking http status code
 
 ```
