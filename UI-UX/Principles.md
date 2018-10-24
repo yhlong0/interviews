@@ -1,4 +1,4 @@
-User Centered Design
+## User Centered Design
 
 User research -> User Journeys and scenarios -> Wireframing(Balsamiq) -> Prototyping -> Usability testing. 
 
@@ -18,7 +18,7 @@ User research -> User Journeys and scenarios -> Wireframing(Balsamiq) -> Prototy
 - Visual design: color, look, feel, branding. 
 
 
-UI vs UX
+## UI vs UX
 
 Bad UX is you couldn't find something, not because it looks ugly. 
 Good UX is not because it is look beautiful, it is because you easy to achive the task.
@@ -32,7 +32,7 @@ User Research
 Business Objectives
 
 
-Business Requirements
+### Business Requirements
 - What are the goals of this project?
 - How will we know when this app has been successful?
 - Who are the users of the site?
@@ -49,7 +49,7 @@ Users
 
 Observing, be curios, vs asking..
 
-Empathy Map
+### Empathy Map
 
 Hear
 What friends say
@@ -73,6 +73,10 @@ Competitors
 
 PAIN: fears, frustrations, obstacles
 GAINS: Wants, needs, success, measures
+
+### User Journeys
+
+A map of the actions and emotions that your user experiences while using your design from start to finish.
 
 
 
