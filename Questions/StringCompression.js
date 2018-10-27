@@ -11,13 +11,22 @@ function StringCompression(str) {
         return false;
     }
 
-    for(let i = 1; i< str.length; i++){
-        if(temp == str.charAt(i)){
-            counter++;
+    for(let i = 1; i < str.length; i++){
+        if(i == str.length - 1) {
+            if(temp == str.charAt(i)) {
+                counter++;
+                compressedStr = compressedStr + temp + counter;
+            } else {
+                compressedStr = compressedStr + temp + counter + str.charAt(i) + 1;
+            }
         } else {
-            compressedStr = compressedStr + temp + counter;
-            counter = 1;
-            temp = str.charAt(i);
+            if(temp == str.charAt(i)){
+                counter++;
+            } else {
+                compressedStr = compressedStr + temp + counter;
+                counter = 1;
+                temp = str.charAt(i);
+            }
         }
     }
 
@@ -26,8 +35,9 @@ function StringCompression(str) {
     }
 
     return false;
+
 }
 
-str1 = 'aabccccdd';
+str1 = 'aaa';
 
 console.log(StringCompression(str1));
