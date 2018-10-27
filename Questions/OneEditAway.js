@@ -15,24 +15,12 @@ function OneEditAway(str1, str2) {
         return true;
     }
 
-    if (diff > -2 && diff < 2 ) {
-        if(str1.length > str2.length) {
-            for(let i = 0; i < str2.length; i++){
-                str1 = str1.replace(str2.charAt(i), '');
-            }
-            if(str1.length > 1){
-                return false;
-            }
-            return true;
-        } else {
-            for(let i = 0; i < str1.length; i++){
-                str2 = str2.replace(str1.charAt(i), '');
-            }
-            if(str2.length > 1){
-                return false;
-            }
-            return true;
-        }
+    if (str2.length + 1 == str1.length ) {
+        return oneEditInsert(str1, str2);
+    }
+
+    if (str1.length + 1 == str2.length) {
+        return oneEditInsert(str2, str1);
     }
 
     if (diff > 1 || diff < -1) {
@@ -40,10 +28,20 @@ function OneEditAway(str1, str2) {
     }
 }
 
+function oneEditInsert(long, short) {
+    for(let i = 0; i < short.length; i++){
+        long = long.replace(short.charAt(i), '');
+    }
+    if(long.length > 1){
+        return false;
+    }
+    return true;
+}
 
 
 
-let str1 = 'avbc';
+
+let str1 = 'av2b2c';
 let str2 = 'avdbc';
 
 console.log(OneEditAway(str1, str2));
