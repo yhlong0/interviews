@@ -4,14 +4,29 @@
 */
 
 function RotateMatrix(matrix) {
+    let temp = [];
 
+
+
+
+
+    for(let i = 0; i < matrix.length; i++) {
+        temp.push(matrix[0][i]) 
+        console.log(matrix[0][i]);
+    }
+
+    for(let i = matrix.length - 1; i > 0; i--) {
+        matrix[0][i] = matrix[i][0];
+        console.log(matrix[0][i]);
+    }
+    
 
     return matrix
 }
 
-
+1,2
 let m1 = [
-    [1, 2],
+    [1, 3],
     [3, 4]
 ];
 
