@@ -18,3 +18,18 @@ by 9.
 
 #### Input
 
+The input to the function/method consists of three arguments:
+*numRows*, an integer representing the number of rows;
+*numColumns*, an ineger representing the number of columns;
+*area*, representing the two-dimensional grid of integers. 
+
+### Output
+
+Return an integer representing the total distance traversed to deliver the order else return -1.
+
+### Constraints
+
+1 <= numRows, numColumns <= 10000
+
+### Example
+
