@@ -3,17 +3,32 @@
 Check [Euclidian Algorithm](https://www.youtube.com/watch?v=JUzYl1TYMcU)
 
 ```js
-function findGCD(numbers){
-  numbers.reduce((s, n) => {
-  
-  })
-  
-  [a, b]
-  
-  (b - a)%
-}
+//v1 recursive
+const gcd = (a, b) => {
+  if (b === 0) {
+    return a;
+  }
 
-100 - 13 = 87
+  if (b > a) {
+    return gcd(b, a);
+  }
+
+  return gcd(b, a % b);
+};
+
+//v2 loop
+const gcd2 = (a, b) => {
+  let temp;
+  while (b > 0) {
+    temp = b;
+    b = a % b;
+    a = temp;
+  }
+  return a;
+};
+
+const result = gcd2(2, 45);
+console.log(result);
 
 
 ```
